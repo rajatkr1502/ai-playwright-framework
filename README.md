@@ -7,6 +7,7 @@ This repository is a Playwright-based automation framework with AI-related proje
 - Playwright test automation for Chromium, Firefox, and WebKit
 - Allure reporting integration
 - Structured project folders for tests, pages, fixtures, utilities, and AI helpers
+- AI test-case generator for turning requirements into Playwright steps
 - Sample smoke tests to get started quickly
 
 ## Project Structure
@@ -67,6 +68,25 @@ npm run allure:open
 
 - Playwright configuration is defined in `playwright.config.ts`
 - The current setup uses Allure as the main reporter and runs tests across Chromium, Firefox, and WebKit
+
+## AI test-case generator
+
+This repository now includes a starter AI method under `src/ai/testCaseGenerator.ts` that converts a business requirement into Playwright-friendly test steps.
+It also includes a DOM parser in `src/ai/domContext.ts` that captures the page URL, headings, links, inputs, and visible text from a provided page URL to improve test generation.
+
+1. Copy `.env.example` to `.env` and add your `OPENAI_API_KEY`.
+2. Import and call `generatePlaywrightTestCase('Your requirement here')` from your code.
+3. Or pass a real page URL with `generatePlaywrightTestCaseWithContext('Your requirement here', 'https://example.com')` to enrich the prompt with live DOM context.
+4. Use the returned `title`, `description`, and `steps` to build or review a Playwright test scenario.
+
+Example:
+
+```ts
+import { generatePlaywrightTestCase } from './src/ai/testCaseGenerator';
+
+const generated = await generatePlaywrightTestCase('User should be able to log in with valid credentials.');
+console.log(generated);
+```
 
 ## Notes
 
