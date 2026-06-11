@@ -8,6 +8,7 @@ This repository is a Playwright-based automation framework with AI-related proje
 - Allure reporting integration
 - Structured project folders for tests, pages, fixtures, utilities, and AI helpers
 - AI test-case generator for turning requirements into Playwright steps
+- AI failure analyzer for summarizing Playwright failures and suggesting fixes
 - Sample smoke tests to get started quickly
 
 ## Project Structure
@@ -73,6 +74,7 @@ npm run allure:open
 
 This repository now includes a starter AI method under `src/ai/testCaseGenerator.ts` that converts a business requirement into Playwright-friendly test steps.
 It also includes a DOM parser in `src/ai/domContext.ts` that captures the page URL, headings, links, inputs, and visible text from a provided page URL to improve test generation.
+A new failure analyzer in `src/ai/failureAnalyzer.ts` can review Playwright errors, screenshot paths, and Allure log snippets and return a root-cause summary plus a suggested fix.
 
 1. Copy `.env.example` to `.env` and add your `OPENAI_API_KEY`.
 2. Import and call `generatePlaywrightTestCase('Your requirement here')` from your code.
