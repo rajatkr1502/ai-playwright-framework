@@ -90,6 +90,30 @@ const generated = await generatePlaywrightTestCase('User should be able to log i
 console.log(generated);
 ```
 
+## AI failure analyzer
+
+The failure analyzer in `src/ai/failureAnalyzer.ts` can take Playwright error text, a screenshot path, and an Allure log excerpt and return:
+
+- a short root-cause summary,
+- a suggested fix,
+- and a confidence level.
+
+Example:
+
+```ts
+import { analyzePlaywrightFailure } from './src/ai/failureAnalyzer';
+
+const result = await analyzePlaywrightFailure(
+  'Timeout 30000ms exceeded while waiting for locator("text=Dashboard")',
+  'allure-results/screenshots/failure.png',
+  'Expected text "Dashboard" was not found in the page.'
+);
+
+console.log(result.rootCause);
+console.log(result.suggestedFix);
+console.log(result.confidence);
+```
+
 ## Notes
 
 This repository currently includes example tests in `src/tests/example.spec.ts` as a starting point for building your own automation suite.
