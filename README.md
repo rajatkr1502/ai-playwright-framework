@@ -70,6 +70,16 @@ npm run allure:open
 - Playwright configuration is defined in `playwright.config.ts`
 - The current setup uses Allure as the main reporter and runs tests across Chromium, Firefox, and WebKit
 
+## AI features overview
+
+The current AI layer in this repo includes three practical capabilities:
+
+1. AI test-case generator — turns a business requirement into Playwright-style test steps.
+2. DOM context collector — captures page title, headings, links, inputs, and visible text from a provided URL to improve prompt quality.
+3. AI failure analyzer — reviews Playwright errors, screenshot references, and Allure log snippets to suggest likely root causes and fixes.
+
+These features are implemented under `src/ai/` and are designed to support faster test creation and faster debugging.
+
 ## AI test-case generator
 
 This repository now includes a starter AI method under `src/ai/testCaseGenerator.ts` that converts a business requirement into Playwright-friendly test steps.
