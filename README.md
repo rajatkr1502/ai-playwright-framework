@@ -8,6 +8,7 @@ This repository is a Playwright-based automation framework with AI-related proje
 - Allure reporting integration
 - Structured project folders for tests, pages, fixtures, utilities, and AI helpers
 - AI test-case generator for turning requirements into Playwright steps
+- AI failure analyzer for summarizing Playwright failures and suggesting fixes
 - Sample smoke tests to get started quickly
 
 ## Project Structure
@@ -69,10 +70,21 @@ npm run allure:open
 - Playwright configuration is defined in `playwright.config.ts`
 - The current setup uses Allure as the main reporter and runs tests across Chromium, Firefox, and WebKit
 
+## AI features overview
+
+The current AI layer in this repo includes three practical capabilities:
+
+1. AI test-case generator — turns a business requirement into Playwright-style test steps.
+2. DOM context collector — captures page title, headings, links, inputs, and visible text from a provided URL to improve prompt quality.
+3. AI failure analyzer — reviews Playwright errors, screenshot references, and Allure log snippets to suggest likely root causes and fixes.
+
+These features are implemented under `src/ai/` and are designed to support faster test creation and faster debugging.
+
 ## AI test-case generator
 
 This repository now includes a starter AI method under `src/ai/testCaseGenerator.ts` that converts a business requirement into Playwright-friendly test steps.
 It also includes a DOM parser in `src/ai/domContext.ts` that captures the page URL, headings, links, inputs, and visible text from a provided page URL to improve test generation.
+A new failure analyzer in `src/ai/failureAnalyzer.ts` can review Playwright errors, screenshot paths, and Allure log snippets and return a root-cause summary plus a suggested fix.
 
 1. Copy `.env.example` to `.env` and add your `OPENAI_API_KEY`.
 2. Import and call `generatePlaywrightTestCase('Your requirement here')` from your code.
@@ -86,6 +98,30 @@ import { generatePlaywrightTestCase } from './src/ai/testCaseGenerator';
 
 const generated = await generatePlaywrightTestCase('User should be able to log in with valid credentials.');
 console.log(generated);
+```
+
+## AI failure analyzer
+
+The failure analyzer in `src/ai/failureAnalyzer.ts` can take Playwright error text, a screenshot path, and an Allure log excerpt and return:
+
+- a short root-cause summary,
+- a suggested fix,
+- and a confidence level.
+
+Example:
+
+```ts
+import { analyzePlaywrightFailure } from './src/ai/failureAnalyzer';
+
+const result = await analyzePlaywrightFailure(
+  'Timeout 30000ms exceeded while waiting for locator("text=Dashboard")',
+  'allure-results/screenshots/failure.png',
+  'Expected text "Dashboard" was not found in the page.'
+);
+
+console.log(result.rootCause);
+console.log(result.suggestedFix);
+console.log(result.confidence);
 ```
 
 ## Notes
